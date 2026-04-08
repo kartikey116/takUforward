@@ -1,10 +1,10 @@
-# Enhanced Interactive Calendar Component
+# Calendar Component
 
 ![Calendar Interface](img.png)
 
 Welcome to the **Premium Interactive Calendar Component**! This project was engineered from the ground up to address the Frontend Engineering Challenge by transforming a basic static UI reference into a highly responsive, aesthetically sophisticated, and heavily interactive modern web application.
 
-## 🌟 Elite Features & Engineering
+## Elite Features & Engineering
 
 This application heavily departs from a standard MVP block calendar by implementing Senior-level UX choices and advanced React-state logic matrices:
 
@@ -25,14 +25,14 @@ To lock the application to a gorgeous single-viewport frame without breaking on 
 
 ---
 
-## 🛠️ Built With Modern Specs
+## Built With Modern Specs
 
 - **React 18**: Deeply state-driven functional hooks layout (`useEffect` mapped `localStorage`).
 - **Date-Fns**: Complex temporal math calculation engine without reinventing the logical wheel.
 - **Tailwind CSS v4**: Utilized for extremely rapid logic layout matrices and dynamic string compilation configurations.
 - **Lucide Icons**: Minimalist SVG iconography.
 
-## 🚀 How to Run Locally
+## How to Run Locally
 
 1. Clone this repository to your local machine.
 2. Navigate into the directory and install dependencies:
