@@ -8,7 +8,6 @@ import { ChevronLeft, ChevronRight, Bookmark, Trash2, Calendar as CalIcon, Edit3
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-// Utility for merging Tailwind classes
 function cn(...inputs) {
     return twMerge(clsx(inputs));
 }
@@ -67,7 +66,7 @@ const EnhancedCalendar = () => {
     const [notes, setNotes] = useState([]);
     const [newNoteText, setNewNoteText] = useState('');
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const [selectorMode, setSelectorMode] = useState('grid'); // 'grid' | 'month' | 'year'
+    const [selectorMode, setSelectorMode] = useState('grid'); 
     const [focusedDate, setFocusedDate] = useState(null);
     const calendarRef = useRef(null);
 
@@ -86,7 +85,6 @@ const EnhancedCalendar = () => {
         localStorage.setItem('calendar-notes-data', JSON.stringify(notes));
     }, [notes]);
 
-    // Context Helpers
     const currentMonthKey = format(viewDate, 'yyyy-MM');
     const startKey = startDate ? format(startDate, 'yyyy-MM-dd') : null;
     const endKey = endDate ? format(endDate, 'yyyy-MM-dd') : null;
@@ -102,7 +100,6 @@ const EnhancedCalendar = () => {
             return n.monthKey === currentMonthKey;
         });
 
-        // Revert dynamically injected holidays, sort as usual.
         if (activeContext === 'month' || activeContext === 'range') {
             filtered.sort((a, b) => {
                 const dateA = a.startKey || '0000-00-00';
@@ -174,18 +171,15 @@ const EnhancedCalendar = () => {
         return `Notes for ${format(viewDate, 'MMMM')}`;
     };
 
-    // Generate exactly 42 days (6 full weeks) to completely prevent layout shift jitter when changing months
     const monthStart = startOfMonth(viewDate);
     const gridStart = startOfWeek(monthStart, { weekStartsOn: 1 });
     const days = Array.from({ length: 42 }).map((_, i) => addDays(gridStart, i));
 
     const accentColor = SEASONAL_THEMES[viewDate.getMonth()];
 
-    // --- Logic: Unified Ranger Selection (Drag + Tap) ---
     const handlePointerDown = (day) => {
         if (!isSameMonth(day, viewDate)) return;
-        
-        // Tap toggle exactly single date
+ 
         if (startDate && !endDate && isSameDay(day, startDate)) {
             setStartDate(null);
             setEndDate(null);
@@ -193,7 +187,6 @@ const EnhancedCalendar = () => {
             return;
         }
 
-        // Tap to complete range instantly (mobile support)
         if (startDate && !endDate) {
             if (isBefore(day, startDate)) {
                 setEndDate(startDate);
@@ -381,7 +374,6 @@ const EnhancedCalendar = () => {
                     {/* Navigation */}
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6 md:mb-12">
                         
-                        {/* Upper Mobile Row / Left Desktop */}
                         <div className="flex flex-wrap items-center justify-between w-full md:w-auto gap-3 md:gap-4">
                             <div className="flex items-center gap-2">
                                 <button
@@ -404,7 +396,6 @@ const EnhancedCalendar = () => {
                                 </button>
                             </div>
 
-                            {/* Mobile Year Display (Hidden on Desktop) */}
                             <div className="md:hidden flex items-center gap-3">
                                 <button
                                     onClick={() => setIsDarkMode(!isDarkMode)}
@@ -418,7 +409,6 @@ const EnhancedCalendar = () => {
                             </div>
                         </div>
 
-                        {/* Lower Mobile Row / Middle Desktop */}
                         <div className="flex items-center w-full md:w-auto justify-center md:justify-start pt-2 md:pt-0 border-t md:border-none border-slate-200 dark:border-slate-700">
                             <div className="flex items-center gap-2">
                                 <button
@@ -436,7 +426,6 @@ const EnhancedCalendar = () => {
                             </div>
                         </div>
 
-                        {/* Right Desktop Area */}
                         <div className="hidden md:flex items-center gap-4 shrink-0 pl-2">
                             <button
                                 onClick={() => setIsDarkMode(!isDarkMode)}
@@ -497,12 +486,11 @@ const EnhancedCalendar = () => {
                                                 {format(day, 'd')}
                                             </span>
 
-                                    {/* Visual Hint for Hover */}
                                     {isCurMonth && !isStart && !isEnd && !inRange && (
                                         <div className={cn("absolute inset-2 rounded-xl transition-colors", isDarkMode ? "group-hover:bg-slate-700/50" : "group-hover:bg-slate-50")} />
                                     )}
 
-                                    {/* Pointers / Dots */}
+                                
                                     {isCurMonth && (hasHoliday || dayNotes.length > 0) && (
                                         <div className="absolute bottom-1 md:bottom-2 flex gap-1 justify-center items-center w-full z-10 pointer-events-none">
                                             {hasHoliday && <span className="w-2 h-2 rounded-full shadow-sm bg-emerald-500 ring-2 ring-emerald-500/30 animate-[pulse_3s_ease-in-out_infinite]" />}
@@ -585,12 +573,10 @@ const EnhancedCalendar = () => {
                     )}
                     </div>
 
-                    {/* Range Selection Status Footer & Holidays */}
                     <div className={cn("mt-auto pt-4 border-t flex flex-col justify-end gap-3", isDarkMode ? "border-slate-700" : "border-slate-100")}>
                         
                         {/* Holidays Viewer Container */}
                         <div className="w-full relative">
-                            {/* Horizontal Swipe Track */}
                             <div className="flex overflow-x-auto hide-scroll gap-2 text-[10px] md:text-[11px] font-bold uppercase tracking-wider pb-1">
                                 {Object.keys(HOLIDAYS).filter(k => k.startsWith(format(viewDate, 'MM'))).length === 0 ? (
                                     <div className={cn("shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg", isDarkMode ? "text-slate-500" : "text-slate-400")}>
@@ -610,13 +596,12 @@ const EnhancedCalendar = () => {
                                 )}
                             </div>
                             
-                            {/* Visual Fade to indicate scrollable depth gracefully without scrollbars */}
                             <div className={cn("absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-l pointer-events-none", isDarkMode ? "from-slate-800 to-transparent" : "from-white to-transparent")} />
                         </div>
 
                         {/* Status Footer */}
                         <div className="relative w-full h-[84px]">
-                            {/* Active Selection State */}
+    
                             <div className={cn(
                                 "absolute inset-0 flex items-center justify-between p-3 md:p-5 rounded-2xl border shadow-md transition-all duration-500",
                                 startDate ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" : "opacity-0 translate-y-2 scale-95 pointer-events-none",
@@ -645,7 +630,7 @@ const EnhancedCalendar = () => {
                                 </button>
                             </div>
 
-                            {/* Empty Prompt State */}
+                
                             <div className={cn(
                                 "absolute inset-0 flex items-center justify-center gap-2 md:gap-3 px-2 rounded-2xl border border-dashed transition-all duration-500 delay-100",
                                 !startDate ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-2 scale-95 pointer-events-none",
